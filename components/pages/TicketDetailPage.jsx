@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowLeft, UserCircle, Clock, Send, CheckCircle2 } from 'lucide-react';
-import { User, Ticket, Status, Role } from '../../types';
+import { Status, Role } from '../../types';
 import { Modal, getCategoryIcon, PriorityBadge, StatusBadge } from '../SharedComponents';
 
-interface Props {
-  user: User;
-  ticket: Ticket;
-  onUpdate: (id: string, updates: Partial<Ticket>) => void;
-  onComment: (id: string, text: string) => void;
-  onBack: () => void;
-  onDomainMismatch: () => void;
-}
-
-export default function TicketDetailPage({ user, ticket, onUpdate, onComment, onBack, onDomainMismatch }: Props) {
+export default function TicketDetailPage({ user, ticket, onUpdate, onComment, onBack, onDomainMismatch }) {
   const isAgent = user.role === Role.AGENT;
   const [commentText, setCommentText] = useState('');
   const [showWarning, setShowWarning] = useState(false);
@@ -23,7 +14,7 @@ export default function TicketDetailPage({ user, ticket, onUpdate, onComment, on
     }
   }, [isAgent, user.domain, ticket.category]);
 
-  const handleStatusChange = (newStatus: Status) => {
+  const handleStatusChange = (newStatus) => {
     onUpdate(ticket.id, { status: newStatus });
   };
 
@@ -31,7 +22,7 @@ export default function TicketDetailPage({ user, ticket, onUpdate, onComment, on
     onUpdate(ticket.id, { assignedTo: user.name, status: Status.IN_PROGRESS });
   };
 
-  const submitComment = (e: React.FormEvent) => {
+  const submitComment = (e) => {
     e.preventDefault();
     if (!commentText.trim()) return;
     onComment(ticket.id, commentText);
@@ -175,7 +166,7 @@ export default function TicketDetailPage({ user, ticket, onUpdate, onComment, on
                           <label className="text-xs text-slate-500 block mb-2">Status</label>
                           <select 
                              value={ticket.status} 
-                             onChange={(e) => handleStatusChange(e.target.value as Status)}
+                             onChange={(e) => handleStatusChange(e.target.value)}
                              className="w-full p-2 rounded-lg border border-slate-200 text-sm font-medium outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-300"
                           >
                              {Object.values(Status).map(s => <option key={s} value={s}>{s}</option>)}

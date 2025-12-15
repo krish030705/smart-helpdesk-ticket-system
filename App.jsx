@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Category, Priority, Role, Status, Ticket, User } from './types';
+import { Category, Priority, Role, Status } from './types';
 import { MOCK_USERS } from './constants';
 import { INITIAL_TICKETS } from './constants';
 import LoginPage from './components/pages/LoginPage';
@@ -13,21 +13,21 @@ import Sidebar from './components/Sidebar';
 
 export default function App() {
   // --- Global State ---
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [tickets, setTickets] = useState<Ticket[]>(INITIAL_TICKETS);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [tickets, setTickets] = useState(INITIAL_TICKETS);
   
   // Navigation State
   // Views: 'dashboard' | 'raise_ticket' | 'ticket_list' | 'ticket_detail' | 'profile'
   const [currentView, setCurrentView] = useState('dashboard');
-  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
 
   // --- Login Logic ---
-  const [loginRole, setLoginRole] = useState<Role>(Role.USER);
+  const [loginRole, setLoginRole] = useState(Role.USER);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [loginError, setLoginError] = useState<string>('');
+  const [loginError, setLoginError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     setLoginError('');
     
@@ -64,11 +64,11 @@ export default function App() {
   };
 
   // --- Ticket Logic ---
-  const handleRaiseTicket = (newTicket: Partial<Ticket>) => {
-    const ticket: Ticket = {
+  const handleRaiseTicket = (newTicket) => {
+    const ticket = {
       id: `T-${1000 + tickets.length + 1}`,
-      title: newTicket.title!,
-      description: newTicket.description!,
+      title: newTicket.title || '',
+      description: newTicket.description || '',
       category: newTicket.category || Category.SOFTWARE,
       priority: newTicket.priority || Priority.LOW,
       status: Status.OPEN,
@@ -81,11 +81,11 @@ export default function App() {
     setCurrentView('ticket_list');
   };
 
-  const handleUpdateTicket = (id: string, updates: Partial<Ticket>) => {
+  const handleUpdateTicket = (id, updates) => {
     setTickets(tickets.map(t => t.id === id ? { ...t, ...updates, updatedAt: new Date().toISOString() } : t));
   };
 
-  const handleAddComment = (id: string, text: string) => {
+  const handleAddComment = (id, text) => {
     const comment = {
       id: `c-${Date.now()}`,
       author: currentUser?.name || 'Anonymous',
@@ -102,7 +102,7 @@ export default function App() {
   };
 
   // --- Routing / Navigation Helpers ---
-  const navigateTo = (view: string, ticketId?: string) => {
+  const navigateTo = (view, ticketId) => {
     setSelectedTicketId(ticketId || null);
     setCurrentView(view);
   };
@@ -126,16 +126,16 @@ export default function App() {
   // --- Layout & Logic for Authenticated User ---
 
   return (
-    <div className="min-h-screen bg-slate-50 pl-64">
-      <Sidebar currentUser={currentUser!} currentView={currentView} navigateTo={navigateTo} handleLogout={handleLogout} />
-      <main className="p-8 max-w-7xl mx-auto">
+    <div className="flex min-h-screen bg-slate-50">
+      <Sidebar currentUser={currentUser} currentView={currentView} navigateTo={navigateTo} handleLogout={handleLogout} />
+      <main className="flex-1 p-8 max-w-7xl mx-auto w-full">
         {currentView === 'dashboard' && <Dashboard user={currentUser} tickets={tickets} onNavigate={navigateTo} />}
         {currentView === 'raise_ticket' && <RaiseTicket onSubmit={handleRaiseTicket} />}
         {currentView === 'ticket_list' && <TicketListPage user={currentUser} tickets={tickets} onSelect={(id) => navigateTo('ticket_detail', id)} />}
         {currentView === 'ticket_detail' && selectedTicketId && (
           <TicketDetailPage 
             user={currentUser} 
-            ticket={tickets.find(t => t.id === selectedTicketId)!} 
+            ticket={tickets.find(t => t.id === selectedTicketId)} 
             onUpdate={handleUpdateTicket}
             onComment={handleAddComment}
             onBack={() => navigateTo('ticket_list')}

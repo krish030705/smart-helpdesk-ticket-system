@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Category } from '../../types';
 import { getCategoryIcon, PriorityBadge, StatusBadge } from '../SharedComponents';
-import { User, Ticket, Role } from '../../types';
+import { Role } from '../../types';
 
-interface Props { user: User; tickets: Ticket[]; onSelect: (id: string) => void }
-
-export default function TicketListPage({ user, tickets, onSelect }: Props) {
+export default function TicketListPage({ user, tickets, onSelect }) {
   const isAgent = user.role === Role.AGENT;
-  const [filterCategory, setFilterCategory] = useState<Category | 'All'>(isAgent && user.domain ? user.domain : 'All');
+  const [filterCategory, setFilterCategory] = useState(isAgent && user.domain ? user.domain : 'All');
 
   const filteredTickets = tickets.filter(t => {
     if (filterCategory !== 'All' && t.category !== filterCategory) return false;

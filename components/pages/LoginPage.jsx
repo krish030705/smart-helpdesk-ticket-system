@@ -2,18 +2,7 @@ import React from 'react';
 import { ChevronRight, AlertCircle } from 'lucide-react';
 import { Role } from '../../types';
 
-interface Props {
-  loginRole: Role;
-  setLoginRole: (r: Role) => void;
-  loginEmail: string;
-  setLoginEmail: (s: string) => void;
-  loginPassword: string;
-  setLoginPassword: (s: string) => void;
-  handleLogin: (e: React.FormEvent) => void;
-  loginError?: string;
-}
-
-export default function LoginPage({ loginRole, setLoginRole, loginEmail, setLoginEmail, loginPassword, setLoginPassword, handleLogin, loginError }: Props) {
+export default function LoginPage({ loginRole, setLoginRole, loginEmail, setLoginEmail, loginPassword, setLoginPassword, handleLogin, loginError }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4">
       <div className="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[700px]">

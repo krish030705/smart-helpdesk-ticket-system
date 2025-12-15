@@ -1,16 +1,9 @@
 import React from 'react';
 import { LayoutDashboard, PlusCircle, List, LogOut } from 'lucide-react';
-import { User as UserType, Role } from '../types';
+import { Role } from '../types';
 import { getCategoryIcon } from './SharedComponents';
 
-interface SidebarProps {
-  currentUser: UserType;
-  currentView: string;
-  navigateTo: (view: string, ticketId?: string) => void;
-  handleLogout: () => void;
-}
-
-export const SidebarItem = ({ icon, label, view, currentView, navigateTo }: { icon: any, label: string, view: string, currentView: string, navigateTo: (v: string) => void }) => (
+export const SidebarItem = ({ icon, label, view, currentView, navigateTo }) => (
   <button
     onClick={() => navigateTo(view)}
     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
@@ -24,9 +17,9 @@ export const SidebarItem = ({ icon, label, view, currentView, navigateTo }: { ic
   </button>
 );
 
-export default function Sidebar({ currentUser, currentView, navigateTo, handleLogout }: SidebarProps) {
+export default function Sidebar({ currentUser, currentView, navigateTo, handleLogout }) {
   return (
-    <div className="w-64 bg-white border-r border-slate-200 flex flex-col h-screen fixed left-0 top-0 z-20">
+    <div className="w-64 bg-white border-r border-slate-200 flex flex-col h-screen sticky top-0">
       <div className="p-6 border-b border-slate-100 flex items-center gap-3">
         <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">HD</div>
         <span className="font-bold text-xl text-slate-800">HelpDesk</span>

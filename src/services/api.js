@@ -1,8 +1,8 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
-let authToken: string | null = localStorage.getItem('authToken');
+let authToken = localStorage.getItem('authToken');
 
-export const setAuthToken = (token: string) => {
+export const setAuthToken = (token) => {
   authToken = token;
   localStorage.setItem('authToken', token);
 };
@@ -18,7 +18,7 @@ const getHeaders = () => ({
 });
 
 // Login API
-export const login = async (email: string, role: string, password: string) => {
+export const login = async (email, role, password) => {
   try {
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
@@ -60,7 +60,7 @@ export const getTickets = async () => {
 };
 
 // Get single ticket
-export const getTicket = async (ticketId: string) => {
+export const getTicket = async (ticketId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/tickets/${ticketId}`, {
       method: 'GET',
@@ -80,12 +80,7 @@ export const getTicket = async (ticketId: string) => {
 };
 
 // Create ticket
-export const createTicket = async (ticket: {
-  title: string;
-  description: string;
-  category: string;
-  priority: string;
-}) => {
+export const createTicket = async (ticket) => {
   try {
     const response = await fetch(`${API_BASE_URL}/tickets`, {
       method: 'POST',
@@ -106,7 +101,7 @@ export const createTicket = async (ticket: {
 };
 
 // Update ticket
-export const updateTicket = async (ticketId: string, updates: any) => {
+export const updateTicket = async (ticketId, updates) => {
   try {
     const response = await fetch(`${API_BASE_URL}/tickets/${ticketId}`, {
       method: 'PUT',
@@ -127,7 +122,7 @@ export const updateTicket = async (ticketId: string, updates: any) => {
 };
 
 // Add comment to ticket
-export const addComment = async (ticketId: string, text: string) => {
+export const addComment = async (ticketId, text) => {
   try {
     const response = await fetch(`${API_BASE_URL}/tickets/${ticketId}/comments`, {
       method: 'POST',

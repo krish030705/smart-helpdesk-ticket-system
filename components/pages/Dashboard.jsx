@@ -1,12 +1,10 @@
 import React, { useMemo } from 'react';
 import { LayoutDashboard, PlusCircle, List, AlertTriangle, Clock, CheckCircle2 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import { User, Role, Status, Category, Ticket } from '../../types';
+import { Role, Status, Category } from '../../types';
 import { StatCard, getCategoryIcon, StatusBadge } from '../SharedComponents';
 
-interface Props { user: User; tickets: Ticket[]; onNavigate: (view: string) => void }
-
-export default function Dashboard({ user, tickets, onNavigate }: Props) {
+export default function Dashboard({ user, tickets, onNavigate }) {
   const isAgent = user.role === Role.AGENT;
 
   const relevantTickets = useMemo(() => {

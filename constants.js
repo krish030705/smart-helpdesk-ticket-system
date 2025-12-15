@@ -1,10 +1,6 @@
-import { Category, Priority, Role, Status, Ticket, User } from './types';
+import { Category, Priority, Role, Status } from './types';
 
-export interface UserCredentials extends User {
-  password: string;
-}
-
-export const MOCK_USERS: UserCredentials[] = [
+export const MOCK_USERS = [
   // Users
   {
     id: 'u1',
@@ -62,7 +58,7 @@ export const MOCK_USERS: UserCredentials[] = [
   }
 ];
 
-export const INITIAL_TICKETS: Ticket[] = [
+export const INITIAL_TICKETS = [
   {
     id: 'T-1001',
     title: 'WiFi keeps disconnecting in Meeting Room B',

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronRight, Send, CheckCircle2 } from 'lucide-react';
-import { Ticket, Category, Priority } from '../../types';
+import { Category, Priority } from '../../types';
 import { Modal } from '../SharedComponents';
 
-interface Props { onSubmit: (t: Partial<Ticket>) => void }
-
-export default function RaiseTicket({ onSubmit }: Props) {
-  const [formData, setFormData] = useState<Partial<Ticket>>({
+export default function RaiseTicket({ onSubmit }) {
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
     category: Category.SOFTWARE,
@@ -14,7 +12,7 @@ export default function RaiseTicket({ onSubmit }: Props) {
   });
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
     setIsSuccess(true);
@@ -48,7 +46,7 @@ export default function RaiseTicket({ onSubmit }: Props) {
                     <select
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none appearance-none bg-white"
                       value={formData.category}
-                      onChange={e => setFormData({...formData, category: e.target.value as Category})}
+                      onChange={e => setFormData({...formData, category: e.target.value})}
                     >
                       {Object.values(Category).map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
@@ -64,7 +62,7 @@ export default function RaiseTicket({ onSubmit }: Props) {
                     <select
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none appearance-none bg-white"
                       value={formData.priority}
-                      onChange={e => setFormData({...formData, priority: e.target.value as Priority})}
+                      onChange={e => setFormData({...formData, priority: e.target.value})}
                     >
                       {Object.values(Priority).map(p => <option key={p} value={p}>{p}</option>)}
                     </select>

@@ -3,7 +3,7 @@ import { Category, Priority, Status } from '../types';
 import { AlertCircle, CheckCircle2, Clock, Zap, Wifi, Monitor, Code, FileText, User, X } from 'lucide-react';
 
 // --- Icons Helper ---
-export const getCategoryIcon = (category: Category) => {
+export const getCategoryIcon = (category) => {
   switch (category) {
     case Category.ELECTRICITY: return <Zap className="w-5 h-5 text-yellow-500" />;
     case Category.NETWORK: return <Wifi className="w-5 h-5 text-blue-500" />;
@@ -14,7 +14,7 @@ export const getCategoryIcon = (category: Category) => {
 };
 
 // --- Badges ---
-export const StatusBadge: React.FC<{ status: Status }> = ({ status }) => {
+export const StatusBadge = ({ status }) => {
   const styles = {
     [Status.OPEN]: 'bg-yellow-100 text-yellow-800 border-yellow-200',
     [Status.IN_PROGRESS]: 'bg-blue-100 text-blue-800 border-blue-200',
@@ -35,7 +35,7 @@ export const StatusBadge: React.FC<{ status: Status }> = ({ status }) => {
   );
 };
 
-export const PriorityBadge: React.FC<{ priority: Priority }> = ({ priority }) => {
+export const PriorityBadge = ({ priority }) => {
   const styles = {
     [Priority.LOW]: 'bg-slate-100 text-slate-600',
     [Priority.MEDIUM]: 'bg-orange-100 text-orange-600',
@@ -49,14 +49,7 @@ export const PriorityBadge: React.FC<{ priority: Priority }> = ({ priority }) =>
 };
 
 // --- Stat Card ---
-interface StatCardProps {
-  title: string;
-  value: number;
-  icon: React.ReactNode;
-  colorClass: string;
-}
-
-export const StatCard: React.FC<StatCardProps> = ({ title, value, icon, colorClass }) => (
+export const StatCard = ({ title, value, icon, colorClass }) => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between transition-transform hover:scale-[1.02]">
     <div>
       <p className="text-sm font-medium text-slate-500">{title}</p>
@@ -69,16 +62,7 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, icon, colorCla
 );
 
 // --- Modal ---
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title: string;
-  children: React.ReactNode;
-  footer?: React.ReactNode;
-  type?: 'default' | 'warning';
-}
-
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer, type = 'default' }) => {
+export const Modal = ({ isOpen, onClose, title, children, footer, type = 'default' }) => {
   if (!isOpen) return null;
 
   return (
