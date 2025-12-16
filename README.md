@@ -12,7 +12,7 @@ A modern IT service desk application built with React, TypeScript, and MongoDB f
 
 ### Setup
 
-1. **Install dependencies:**
+1. **Install    dependencies:**
 ```bash
 npm install
 ```
