@@ -5,13 +5,15 @@ import { Role } from '../../types';
 
 export default function TicketListPage({ user, tickets, onSelect }) {
   const isAgent = user.role === Role.AGENT;
-  const [filterCategory, setFilterCategory] = useState(isAgent && user.domain ? user.domain : 'All');
+  const [filterCategory, setFilterCategory] = useState('All');
 
-  const filteredTickets = tickets.filter(t => {
-    if (filterCategory !== 'All' && t.category !== filterCategory) return false;
-    if (!isAgent && t.createdBy !== user.name) return false;
-    return true;
-  });
+  const filteredTickets = tickets
+    .filter(t => {
+      const matchesCategory = filterCategory === 'All' || t.category === filterCategory;
+      const matchesUser = isAgent ? true : t.createdBy === user.name;
+      return matchesCategory && matchesUser;
+    })
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
   return (
     <div className="space-y-6">
@@ -81,7 +83,9 @@ export default function TicketListPage({ user, tickets, onSelect }) {
               {filteredTickets.length === 0 && (
                 <tr>
                   <td colSpan={6} className="p-8 text-center text-slate-500">
-                     No tickets found matching your filters.
+                    {filterCategory === 'All' 
+                      ? "No tickets found. Create your first ticket to get started!" 
+                      : `No tickets found in ${filterCategory} category.`}
                   </td>
                 </tr>
               )}

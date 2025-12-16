@@ -8,7 +8,13 @@ export default function Dashboard({ user, tickets, onNavigate }) {
   const isAgent = user.role === Role.AGENT;
 
   const relevantTickets = useMemo(() => {
-    if (isAgent) return tickets.filter(t => t.category === user.domain);
+    if (isAgent) {
+      // Show tickets from agent's domain (case-insensitive) or assigned to them
+      return tickets.filter(t => 
+        (t.category && user.domain && t.category.toLowerCase() === user.domain.toLowerCase()) || 
+        t.assignedTo === user.name
+      );
+    }
     return tickets.filter(t => t.createdBy === user.name);
   }, [tickets, user, isAgent]);
 
@@ -75,21 +81,28 @@ export default function Dashboard({ user, tickets, onNavigate }) {
              <button onClick={() => onNavigate('ticket_list')} className="text-sm text-blue-600 font-medium hover:underline">View All</button>
            </div>
            <div className="space-y-4">
-             {relevantTickets.slice(0, 4).map(ticket => (
-               <div key={ticket.id} className="p-3 hover:bg-slate-50 rounded-lg transition-colors border-b border-slate-50 last:border-0 cursor-pointer" onClick={() => onNavigate('ticket_list')}>
-                  <div className="flex justify-between items-start">
-                    <span className="text-sm font-semibold text-slate-800 line-clamp-1">{ticket.title}</span>
-                    <StatusBadge status={ticket.status} />
-                  </div>
-                  <div className="flex items-center gap-2 mt-2 text-xs text-slate-500">
-                     <span>{ticket.id}</span>
+             {relevantTickets
+               .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+               .slice(0, 4)
+               .map(ticket => (
+                 <div 
+                   key={ticket.id} 
+                   className="p-3 hover:bg-slate-50 rounded-lg transition-colors border-b border-slate-50 last:border-0 cursor-pointer"
+                   onClick={() => onNavigate('ticket_detail', ticket.id)}
+                 >
+                   <div className="flex justify-between items-start">
+                     <span className="text-sm font-semibold text-slate-800 line-clamp-1">{ticket.title}</span>
+                     <StatusBadge status={ticket.status} />
+                   </div>
+                   <div className="flex items-center gap-2 mt-2 text-xs text-slate-500">
+                     <span>#{ticket.id}</span>
                      <span>•</span>
-                     <span>{new Date(ticket.updatedAt).toLocaleDateString()}</span>
-                  </div>
-               </div>
-             ))}
+                     <span>{new Date(ticket.updatedAt).toLocaleString()}</span>
+                   </div>
+                 </div>
+               ))}
              {relevantTickets.length === 0 && (
-               <p className="text-slate-400 text-center py-4">No tickets found.</p>
+               <p className="text-slate-400 text-center py-4">No recent tickets found.</p>
              )}
            </div>
         </div>

@@ -9,8 +9,10 @@ export default function TicketDetailPage({ user, ticket, onUpdate, onComment, on
   const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
-    if (isAgent && user.domain && user.domain !== ticket.category) {
+    if (isAgent && user.domain && user.domain.toLowerCase() !== ticket.category?.toLowerCase()) {
       setShowWarning(true);
+    } else {
+      setShowWarning(false);
     }
   }, [isAgent, user.domain, ticket.category]);
 

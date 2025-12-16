@@ -304,7 +304,7 @@ app.post('/api/seed', async (req, res) => {
   try {
     // Clear existing data
     await User.deleteMany({});
-    await Ticket.deleteMany({});
+    await Ticket.deleteMany({}); 
 
     // Create users
     const users = [
@@ -321,6 +321,14 @@ app.post('/api/seed', async (req, res) => {
         name: 'John Doe',
         email: 'john@company.com',
         password: await hashPassword('john123'),
+        role: 'USER',
+        avatar: 'https://picsum.photos/100/100?random=4',
+      },
+      {
+        id: 'u3',
+        name: 'Hari',
+        email: 'hari@company.com',
+        password: await hashPassword('hari123'),
         role: 'USER',
         avatar: 'https://picsum.photos/100/100?random=4',
       },
@@ -372,7 +380,7 @@ app.post('/api/seed', async (req, res) => {
         description: 'Every time we try to present, the connection drops. It happens every 10 minutes.',
         category: 'NETWORK',
         priority: 'HIGH',
-        statuss: 'OPEN',
+        status: 'OPEN',
         createdBy: 'Alice Johnson',
         createdAt: new Date(Date.now() - 86400000 * 2),
         updatedAt: new Date(Date.now() - 86400000 * 2),
@@ -434,8 +442,11 @@ app.post('/api/seed', async (req, res) => {
       tickets: tickets.length,
     });
   } catch (error) {
-    console.error('Seed error:', error);
-    res.status(500).json({ message: 'Server error during seeding' });
+    console.error('Seed error:', error.message || error);
+    res.status(500).json({ 
+      message: 'Server error during seeding',
+      error: error.message || String(error)
+    });
   }
 });
 

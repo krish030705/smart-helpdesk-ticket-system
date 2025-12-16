@@ -17,20 +17,7 @@ export default function LoginPage({ loginRole, setLoginRole, loginEmail, setLogi
             <h1 className="text-4xl font-bold mb-4">HelpDesk</h1>
             <p className="text-blue-100 text-lg mb-8">Streamline your support request and manage tickets with efficiency.</p>
             
-            {/* Sample Credentials */}
-            <div className="bg-blue-700 bg-opacity-50 rounded-xl p-6 text-left text-sm border border-blue-400">
-              <p className="font-bold mb-3 text-blue-100">Sample Credentials:</p>
-              <div className="space-y-2 text-blue-50 text-xs">
-                <p><span className="font-semibold">Users:</span></p>
-                <p>📧 alice@company.com | 🔐 alice123</p>
-                <p>📧 john@company.com | 🔐 john123</p>
-                <p className="mt-3"><span className="font-semibold">Agents (by domain):</span></p>
-                <p>📧 bob@company.com | 🔐 bob123 (Network)</p>
-                <p>📧 sarah@company.com | 🔐 sarah123 (Hardware)</p>
-                <p>📧 mike@company.com | 🔐 mike123 (Software)</p>
-                <p>📧 charlie@company.com | 🔐 charlie123 (Electricity)</p>
-              </div>
-            </div>
+            
           </div>
         </div>
 

@@ -17,6 +17,11 @@ const getHeaders = () => ({
   ...(authToken && { Authorization: `Bearer ${authToken}` }),
 });
 
+const toServerEnum = (value) => {
+  if (value === undefined || value === null) return value;
+  return String(value).trim().toUpperCase().replace(/\s+/g, '_');
+};
+
 // Login API
 export const login = async (email, role, password) => {
   try {
@@ -82,10 +87,15 @@ export const getTicket = async (ticketId) => {
 // Create ticket
 export const createTicket = async (ticket) => {
   try {
+    const payload = {
+      ...ticket,
+      category: toServerEnum(ticket?.category),
+      priority: toServerEnum(ticket?.priority),
+    };
     const response = await fetch(`${API_BASE_URL}/tickets`, {
       method: 'POST',
       headers: getHeaders(),
-      body: JSON.stringify(ticket),
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();
@@ -103,10 +113,16 @@ export const createTicket = async (ticket) => {
 // Update ticket
 export const updateTicket = async (ticketId, updates) => {
   try {
+    const payload = {
+      ...updates,
+      status: updates?.status ? toServerEnum(updates.status) : undefined,
+      priority: updates?.priority ? toServerEnum(updates.priority) : undefined,
+      category: updates?.category ? toServerEnum(updates.category) : undefined,
+    };
     const response = await fetch(`${API_BASE_URL}/tickets/${ticketId}`, {
       method: 'PUT',
       headers: getHeaders(),
-      body: JSON.stringify(updates),
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();
